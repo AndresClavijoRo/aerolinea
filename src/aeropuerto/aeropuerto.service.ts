@@ -39,9 +39,12 @@ export class AeropuertoService {
   async update(id: number, aeropuerto: AeropuertoEntity): Promise<AeropuertoEntity> {
     const aeropuertoFinded = await this.findOne(id);
     this.validateCodeCharacters(aeropuerto.codigo);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: aerolineaId, ...aeropuertoToUpdate } = aeropuerto;
     return await this.aerolineaRepository.save({
       ...aeropuertoFinded,
-      ...aeropuerto,
+      ...aeropuertoToUpdate,
     });
   }
 

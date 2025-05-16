@@ -41,9 +41,12 @@ export class AerolineaService {
 
     this.validateDateInPast(aerolinea.fechaFundacion);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: aerolineaId, ...aerolineaToUpdate } = aerolinea;
+
     return await this.aerolineaRepository.save({
       ...aerolineaFinded,
-      ...aerolinea,
+      ...aerolineaToUpdate,
     });
   }
 
