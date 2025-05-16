@@ -5,8 +5,8 @@ import { Type } from 'class-transformer';
 
 @Entity()
 export class AerolineaEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column()
   nombre: string;

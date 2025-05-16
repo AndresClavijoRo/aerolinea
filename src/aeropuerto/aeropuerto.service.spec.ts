@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AeropuertoService } from './aeropuerto.service';
 import { Repository } from 'typeorm';
@@ -30,10 +28,10 @@ describe('AeropuertoService', () => {
     aeropuertosList = [];
     for (let i = 0; i < 5; i++) {
       const aeropuerto: AeropuertoEntity = await repository.save({
-        nombre: faker.location.city() as string,
+        nombre: faker.location.city(),
         codigo: generateValidCode(),
-        pais: faker.location.country() as string,
-        ciudad: faker.location.city() as string,
+        pais: faker.location.country(),
+        ciudad: faker.location.city(),
         aerolineas: [],
       });
       aeropuertosList.push(aeropuerto);
@@ -42,7 +40,7 @@ describe('AeropuertoService', () => {
 
   // Helper para generar códigos de aeropuerto válidos (3 caracteres)
   const generateValidCode = (): string => {
-    return faker.string.alpha({ length: 3, casing: 'upper' }) as string;
+    return faker.string.alpha({ length: 3, casing: 'upper' });
   };
 
   it('should be defined', () => {
@@ -66,7 +64,7 @@ describe('AeropuertoService', () => {
   });
 
   it('findOne should throw an exception for an invalid aeropuerto', async () => {
-    await expect(() => service.findOne('0')).rejects.toHaveProperty(
+    await expect(() => service.findOne(0)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the given id was not found',
     );
@@ -74,11 +72,11 @@ describe('AeropuertoService', () => {
 
   it('create should return a new aeropuerto', async () => {
     const aeropuerto: AeropuertoEntity = {
-      id: '',
-      nombre: faker.location.city() as string,
+      id: 0,
+      nombre: faker.location.city(),
       codigo: generateValidCode(),
-      pais: faker.location.country() as string,
-      ciudad: faker.location.city() as string,
+      pais: faker.location.country(),
+      ciudad: faker.location.city(),
       aerolineas: [],
     };
     const newAeropuerto: AeropuertoEntity = await service.create(aeropuerto);
@@ -95,11 +93,11 @@ describe('AeropuertoService', () => {
 
   it('create should throw an exception for an invalid code length', async () => {
     const aeropuerto: AeropuertoEntity = {
-      id: '',
-      nombre: faker.location.city() as string,
+      id: 0,
+      nombre: faker.location.city(),
       codigo: 'INVALID', // Código con longitud inválida
-      pais: faker.location.country() as string,
-      ciudad: faker.location.city() as string,
+      pais: faker.location.country(),
+      ciudad: faker.location.city(),
       aerolineas: [],
     };
     await expect(() => service.create(aeropuerto)).rejects.toHaveProperty(
@@ -133,7 +131,7 @@ describe('AeropuertoService', () => {
       nombre: 'New name',
       codigo: 'ABC',
     };
-    await expect(() => service.update('0', aeropuerto)).rejects.toHaveProperty(
+    await expect(() => service.update(0, aeropuerto)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the given id was not found',
     );
@@ -159,7 +157,7 @@ describe('AeropuertoService', () => {
   });
 
   it('delete should throw an exception for an invalid aeropuerto', async () => {
-    await expect(() => service.delete('0')).rejects.toHaveProperty(
+    await expect(() => service.delete(0)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the given id was not found',
     );

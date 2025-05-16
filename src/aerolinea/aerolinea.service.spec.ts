@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AerolineaService } from './aerolinea.service';
 import { Repository } from 'typeorm';
@@ -30,10 +28,10 @@ describe('AerolineaService', () => {
     aerolineasList = [];
     for (let i = 0; i < 5; i++) {
       const aerolinea: AerolineaEntity = await repository.save({
-        nombre: faker.company.name() as string,
-        descripcion: faker.lorem.paragraph() as string,
-        fechaFundacion: faker.date.past() as Date,
-        paginaWeb: faker.internet.url() as string,
+        nombre: faker.company.name(),
+        descripcion: faker.lorem.paragraph(),
+        fechaFundacion: faker.date.past(),
+        paginaWeb: faker.internet.url(),
         aeropuertos: [],
       });
       aerolineasList.push(aerolinea);
@@ -61,20 +59,20 @@ describe('AerolineaService', () => {
   });
 
   it('findOne should throw an exception for an invalid aerolinea', async () => {
-    await expect(() => service.findOne('0')).rejects.toHaveProperty(
+    await expect(() => service.findOne(0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the given id was not found',
     );
   });
 
   it('create should return a new aerolinea', async () => {
-    const pastDate = faker.date.past() as Date;
+    const pastDate = faker.date.past();
     const aerolinea: AerolineaEntity = {
-      id: '',
-      nombre: faker.company.name() as string,
-      descripcion: faker.lorem.paragraph() as string,
+      id: 0,
+      nombre: faker.company.name(),
+      descripcion: faker.lorem.paragraph(),
       fechaFundacion: pastDate,
-      paginaWeb: faker.internet.url() as string,
+      paginaWeb: faker.internet.url(),
       aeropuertos: [],
     };
     const newAerolinea: AerolineaEntity = await service.create(aerolinea);
@@ -90,13 +88,13 @@ describe('AerolineaService', () => {
   });
 
   it('create should throw an exception for a future foundation date', async () => {
-    const futureDate = faker.date.future() as Date;
+    const futureDate = faker.date.future();
     const aerolinea: AerolineaEntity = {
-      id: '',
-      nombre: faker.company.name() as string,
-      descripcion: faker.lorem.paragraph() as string,
+      id: 0,
+      nombre: faker.company.name(),
+      descripcion: faker.lorem.paragraph(),
       fechaFundacion: futureDate,
-      paginaWeb: faker.internet.url() as string,
+      paginaWeb: faker.internet.url(),
       aeropuertos: [],
     };
     await expect(() => service.create(aerolinea)).rejects.toHaveProperty(
@@ -107,7 +105,7 @@ describe('AerolineaService', () => {
 
   it('update should modify an aerolinea', async () => {
     const aerolinea: AerolineaEntity = aerolineasList[0];
-    const pastDate = faker.date.past() as Date;
+    const pastDate = faker.date.past();
     aerolinea.nombre = 'New name';
     aerolinea.descripcion = 'New description';
     aerolinea.fechaFundacion = pastDate;
@@ -131,7 +129,7 @@ describe('AerolineaService', () => {
       nombre: 'New name',
       descripcion: 'New description',
     };
-    await expect(() => service.update('0', aerolinea)).rejects.toHaveProperty(
+    await expect(() => service.update(0, aerolinea)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the given id was not found',
     );
@@ -139,7 +137,7 @@ describe('AerolineaService', () => {
 
   it('update should throw an exception for a future foundation date', async () => {
     const aerolinea: AerolineaEntity = aerolineasList[0];
-    const futureDate = faker.date.future() as Date;
+    const futureDate = faker.date.future();
     aerolinea.fechaFundacion = futureDate;
 
     await expect(() => service.update(aerolinea.id, aerolinea)).rejects.toHaveProperty(
@@ -158,19 +156,19 @@ describe('AerolineaService', () => {
   });
 
   it('delete should throw an exception for an invalid aerolinea', async () => {
-    await expect(() => service.delete('0')).rejects.toHaveProperty(
+    await expect(() => service.delete(0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the given id was not found',
     );
   });
 
   it('validateDateInPast should return true for past dates', () => {
-    const pastDate = faker.date.past() as Date;
+    const pastDate = faker.date.past();
     expect(service.validateDateInPast(pastDate)).toBeTruthy();
   });
 
   it('validateDateInPast should throw an exception for future dates', () => {
-    const futureDate = faker.date.future() as Date;
+    const futureDate = faker.date.future();
     expect(() => service.validateDateInPast(futureDate)).toThrow(BusinessLogicException);
     expect(() => service.validateDateInPast(futureDate)).toThrow(
       'The foundation date must be in the past',

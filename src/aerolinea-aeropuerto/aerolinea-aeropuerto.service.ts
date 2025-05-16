@@ -15,7 +15,7 @@ export class AerolineaAeropuertoService {
     private readonly aeropuertoRepository: Repository<AeropuertoEntity>,
   ) {}
 
-  async addAirportToAirline(aeropuertoId: string, aerolineaId: string): Promise<AerolineaEntity> {
+  async addAirportToAirline(aeropuertoId: number, aerolineaId: number): Promise<AerolineaEntity> {
     const aeropuerto = await this.aeropuertoRepository.findOne({
       where: { id: aeropuertoId },
     });
@@ -43,7 +43,7 @@ export class AerolineaAeropuertoService {
     return await this.aerolineaRepository.save(aerolinea);
   }
 
-  async findAirportsFromAirline(aerolineaId: string): Promise<AeropuertoEntity[]> {
+  async findAirportsFromAirline(aerolineaId: number): Promise<AeropuertoEntity[]> {
     const aerolinea = await this.aerolineaRepository.findOne({
       where: { id: aerolineaId },
       relations: ['aeropuertos'],
@@ -60,8 +60,8 @@ export class AerolineaAeropuertoService {
   }
 
   async findAirportFromAirline(
-    aeropuertoId: string,
-    aerolineaId: string,
+    aeropuertoId: number,
+    aerolineaId: number,
   ): Promise<AeropuertoEntity> {
     const aeropuerto = await this.aeropuertoRepository.findOne({
       where: { id: aeropuertoId },
@@ -98,7 +98,7 @@ export class AerolineaAeropuertoService {
   }
 
   async updateAirportsFromAirline(
-    aerolineaId: string,
+    aerolineaId: number,
     aeropuertos: AeropuertoEntity[],
   ): Promise<AerolineaEntity> {
     const aerolinea = await this.aerolineaRepository.findOne({
@@ -130,7 +130,7 @@ export class AerolineaAeropuertoService {
     return await this.aerolineaRepository.save(aerolinea);
   }
 
-  async deleteAirportFromAirline(aeropuertoId: string, aerolineaId: string): Promise<void> {
+  async deleteAirportFromAirline(aeropuertoId: number, aerolineaId: number): Promise<void> {
     const aeropuerto = await this.aeropuertoRepository.findOne({
       where: { id: aeropuertoId },
       relations: ['aerolineas'],

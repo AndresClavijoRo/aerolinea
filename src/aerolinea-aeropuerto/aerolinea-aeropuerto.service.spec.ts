@@ -82,14 +82,14 @@ describe('AerolineaAeropuertoService', () => {
   });
 
   it('addAirportToAirline should throw an exception for an invalid airport', async () => {
-    await expect(() => service.addAirportToAirline('0', aerolinea.id)).rejects.toHaveProperty(
+    await expect(() => service.addAirportToAirline(0, aerolinea.id)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the provided id does not exist',
     );
   });
 
   it('addAirportToAirline should throw an exception for an invalid airline', async () => {
-    await expect(() => service.addAirportToAirline(aeropuerto.id, '0')).rejects.toHaveProperty(
+    await expect(() => service.addAirportToAirline(aeropuerto.id, 0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the provided id does not exist',
     );
@@ -107,7 +107,7 @@ describe('AerolineaAeropuertoService', () => {
   });
 
   it('findAirportsFromAirline should throw an exception for an invalid airline', async () => {
-    await expect(() => service.findAirportsFromAirline('0')).rejects.toHaveProperty(
+    await expect(() => service.findAirportsFromAirline(0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the provided id does not exist',
     );
@@ -124,14 +124,14 @@ describe('AerolineaAeropuertoService', () => {
   });
 
   it('findAirportFromAirline should throw an exception for an invalid airport', async () => {
-    await expect(() => service.findAirportFromAirline('0', aerolinea.id)).rejects.toHaveProperty(
+    await expect(() => service.findAirportFromAirline(0, aerolinea.id)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the provided id does not exist',
     );
   });
 
   it('findAirportFromAirline should throw an exception for an invalid airline', async () => {
-    await expect(() => service.findAirportFromAirline(aeropuerto.id, '0')).rejects.toHaveProperty(
+    await expect(() => service.findAirportFromAirline(aeropuerto.id, 0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the provided id does not exist',
     );
@@ -172,14 +172,14 @@ describe('AerolineaAeropuertoService', () => {
     const selectedAeropuertos = aeropuertosList.slice(0, 2);
 
     await expect(() =>
-      service.updateAirportsFromAirline('0', selectedAeropuertos),
+      service.updateAirportsFromAirline(0, selectedAeropuertos),
     ).rejects.toHaveProperty('message', 'The aerolinea with the provided id does not exist');
   });
 
   it('updateAirportsFromAirline should throw an exception for an invalid airport', async () => {
     // Crear un aeropuerto con ID inválido
     const invalidAeropuerto = {
-      id: '0',
+      id: 0,
       nombre: 'Invalid Airport',
       codigo: 'INV',
       pais: 'Invalid Country',
@@ -215,14 +215,14 @@ describe('AerolineaAeropuertoService', () => {
   });
 
   it('deleteAirportFromAirline should throw an exception for an invalid airport', async () => {
-    await expect(() => service.deleteAirportFromAirline('0', aerolinea.id)).rejects.toHaveProperty(
+    await expect(() => service.deleteAirportFromAirline(0, aerolinea.id)).rejects.toHaveProperty(
       'message',
       'The aeropuerto with the provided id does not exist',
     );
   });
 
   it('deleteAirportFromAirline should throw an exception for an invalid airline', async () => {
-    await expect(() => service.deleteAirportFromAirline(aeropuerto.id, '0')).rejects.toHaveProperty(
+    await expect(() => service.deleteAirportFromAirline(aeropuerto.id, 0)).rejects.toHaveProperty(
       'message',
       'The aerolinea with the provided id does not exist',
     );

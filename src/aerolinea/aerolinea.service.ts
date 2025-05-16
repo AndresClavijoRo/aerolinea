@@ -16,7 +16,7 @@ export class AerolineaService {
       relations: ['aeropuertos'],
     });
   }
-  async findOne(id: string): Promise<AerolineaEntity> {
+  async findOne(id: number): Promise<AerolineaEntity> {
     const aerolinea = await this.aerolineaRepository.findOne({
       where: { id },
       relations: ['aeropuertos'],
@@ -36,7 +36,7 @@ export class AerolineaService {
     return await this.aerolineaRepository.save(aerolinea);
   }
 
-  async update(id: string, aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
+  async update(id: number, aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
     const aerolineaFinded = await this.findOne(id);
 
     this.validateDateInPast(aerolinea.fechaFundacion);
@@ -47,7 +47,7 @@ export class AerolineaService {
     });
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const aerolineaFinded = await this.findOne(id);
     await this.aerolineaRepository.remove(aerolineaFinded);
   }

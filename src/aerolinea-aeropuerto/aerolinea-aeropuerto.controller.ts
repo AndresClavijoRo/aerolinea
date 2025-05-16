@@ -12,28 +12,28 @@ export class AerolineaAeropuertoController {
 
   @Post(':airlineId/airports/:airportId')
   async addAirportToAirline(
-    @Param('airlineId') airlineId: string,
-    @Param('airportId') airportId: string,
+    @Param('airlineId') airlineId: number,
+    @Param('airportId') airportId: number,
   ) {
     return await this.aerolineaAeropuertoService.addAirportToAirline(airportId, airlineId);
   }
 
   @Get(':airlineId/airports')
-  async findAirportsFromAirline(@Param('airlineId') airlineId: string) {
+  async findAirportsFromAirline(@Param('airlineId') airlineId: number) {
     return await this.aerolineaAeropuertoService.findAirportsFromAirline(airlineId);
   }
 
   @Get(':airlineId/airports/:airportId')
   async findAirportFromAirline(
-    @Param('airlineId') airlineId: string,
-    @Param('airportId') airportId: string,
+    @Param('airlineId') airlineId: number,
+    @Param('airportId') airportId: number,
   ) {
     return await this.aerolineaAeropuertoService.findAirportFromAirline(airportId, airlineId);
   }
 
   @Put(':airlineId/airports')
   async updateAirportsFromAirline(
-    @Param('airlineId') airlineId: string,
+    @Param('airlineId') airlineId: number,
     @Body() aeropuertoDto: AeropuertoDto[],
   ) {
     const aeropuertos = plainToInstance(AeropuertoEntity, aeropuertoDto);
@@ -42,8 +42,8 @@ export class AerolineaAeropuertoController {
 
   @Delete(':airlineId/airports/:airportId')
   async deleteAirportFromAirline(
-    @Param('airlineId') airlineId: string,
-    @Param('airportId') airportId: string,
+    @Param('airlineId') airlineId: number,
+    @Param('airportId') airportId: number,
   ) {
     return await this.aerolineaAeropuertoService.deleteAirportFromAirline(airportId, airlineId);
   }
