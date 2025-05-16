@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "d757f8e4-dbed-44b6-b27f-eaffc0d4108c",
+		"name": "Aeropuertos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38183606",
+		"_collection_link": "https://red-meteor-249373.postman.co/workspace/4164e40b-2fe2-43e2-b5aa-4b59c2e8dd9a/collection/38183606-d757f8e4-dbed-44b6-b27f-eaffc0d4108c?action=share&source=collection_link&creator=38183606"
+	},
+	"item": [
+		{
+			"name": "Crear un aeropuerto válido.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.collectionVariables.set(\"idAeropuerto\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Nombre field should not be empty\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.nombre).exist;\r",
+							"    pm.expect(data.codigo).exist;\r",
+							"    pm.expect(data.pais).exist;\r",
+							"    pm.expect(data.ciudad).exist;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"codigo\": \"1C1\",\r\n    \"pais\": \"Colombia\",\r\n    \"ciudad\": \"Bogota\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airports",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un aeropuerto inválido.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error 400 bad request\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The code must be 3 characters long\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"codigo\": \"1C112\",\r\n    \"pais\": \"Colombia\",\r\n    \"ciudad\": \"Bogota\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airports",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los aeropuertos.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Numero de Aeropuertos > ' + 0, function () {\r",
+							"   var data = pm.response.json()\r",
+							"   pm.expect(data.length).to.greaterThan(0)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airports",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un aeropuerto por ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Numero de aerolinea > ' + 0, function () {\r",
+							"    var data = pm.response.json()\r",
+							"    pm.expect(data.id).to.exist\r",
+							"    pm.expect(data.nombre).to.exist\r",
+							"    pm.expect(data.codigo).to.exist\r",
+							"    pm.expect(data.pais).to.exist\r",
+							"    pm.expect(data.ciudad).to.exist\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airports/{{idAeropuerto}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"{{idAeropuerto}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un aeropuerto por un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aeropuerto with the given id was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airports/10000",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"10000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un aeropuerto.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"codigo\": \"2C3\",\r\n    \"pais\": \"Colombia\",\r\n    \"ciudad\": \"Bogota\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airports/{{idAeropuerto}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"{{idAeropuerto}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un aeropuerto con un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error 404 bad request\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aeropuerto with the given id was not found\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"codigo\": \"2C12123\",\r\n    \"pais\": \"Colombia\",\r\n    \"ciudad\": \"Bogota\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airports/100000",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"100000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un aeropuerto por su ID.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airports/{{idAeropuerto}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"{{idAeropuerto}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un aeropuerto con un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aeropuerto with the given id was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airports/{{idAeropuerto}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airports",
+						"{{idAeropuerto}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "idAerolinea",
+			"value": ""
+		},
+		{
+			"key": "idAeropuerto",
+			"value": ""
+		}
+	]
+}

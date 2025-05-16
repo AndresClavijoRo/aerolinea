@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "d6b6bb21-70ae-4234-8a57-6bf4372149f7",
+		"name": "Aerolíneas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38183606",
+		"_collection_link": "https://red-meteor-249373.postman.co/workspace/4164e40b-2fe2-43e2-b5aa-4b59c2e8dd9a/collection/38183606-d6b6bb21-70ae-4234-8a57-6bf4372149f7?action=share&source=collection_link&creator=38183606"
+	},
+	"item": [
+		{
+			"name": "Crear una aerolínea válida.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.collectionVariables.set(\"idAerolinea\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Nombre field should not be empty\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.nombre).exist;\r",
+							"    pm.expect(data.descripcion).exist;\r",
+							"    pm.expect(data.id).exist;\r",
+							"    pm.expect(data.fechaFundacion).exist;\r",
+							"    pm.expect(data.paginaWeb).exist;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"descripcion\": \"Aerolínea bandera de Colombia con rutas principalmente en América Latina y algunos destinos en Europa y Norteamérica\",\r\n    \"fechaFundacion\": \"12-05-2024\",\r\n    \"paginaWeb\": \"https://www.avianca.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airlines",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear una aerolínea inválida.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error 400 bad request\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The foundation date must be in the past\");\r",
+							"    pm.expect(data.statusCode).to.eql(400);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"descripcion\": \"Aerolínea bandera de Colombia con rutas principalmente en América Latina y algunos destinos en Europa y Norteamérica\",\r\n    \"fechaFundacion\": \"12-05-2026\",\r\n    \"paginaWeb\": \"https://www.avianca.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airlines",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todas las aerolíneas.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Numero de Aerolineas > ' + 0, function () {\r",
+							"   var data = pm.response.json()\r",
+							"   pm.expect(data.length).to.greaterThan(0)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airlines",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una aerolínea por ID.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Numero de aerolinea > ' + 0, function () {\r",
+							"    var data = pm.response.json()\r",
+							"    pm.expect(data.id).to.exist\r",
+							"    pm.expect(data.nombre).to.exist\r",
+							"    pm.expect(data.descripcion).to.exist\r",
+							"    pm.expect(data.fechaFundacion).to.exist\r",
+							"    pm.expect(data.paginaWeb).to.exist\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airlines/{{idAerolinea}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"{{idAerolinea}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una aerolínea por un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aerolinea with the given id was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airlines/10000",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"10000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar una aerolínea.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"descripcion\": \"Aerolínea bandera de Colombia con rutas principalmente en América Latina y algunos destinos en Europa y Norteamérica\",\r\n    \"fechaFundacion\": \"12-05-1919\",\r\n    \"paginaWeb\": \"https://www.avianca.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airlines/{{idAerolinea}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"{{idAerolinea}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar una aerolínea con un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error 404 bad request\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aerolinea with the given id was not found\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Avianca\",\r\n    \"descripcion\": \"Aerolínea bandera de Colombia con rutas principalmente en América Latina y algunos destinos en Europa y Norteamérica\",\r\n    \"fechaFundacion\": \"12-05-2024\",\r\n    \"paginaWeb\": \"https://www.avianca.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/airlines/100000",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"100000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar una aerolínea por su ID.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airlines/{{idAerolinea}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"{{idAerolinea}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar una aerolínea con un ID que no existe.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Get expected error message\", function () {\r",
+							"    var data = pm.response.json();\r",
+							"    pm.expect(data.message).to.eql(\"The aerolinea with the given id was not found\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/airlines/{{idAerolinea}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"airlines",
+						"{{idAerolinea}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "idAerolinea",
+			"value": ""
+		}
+	]
+}
