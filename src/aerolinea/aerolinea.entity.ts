@@ -1,5 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
+import { IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 
 @Entity()
 export class AerolineaEntity {
@@ -13,6 +15,8 @@ export class AerolineaEntity {
   descripcion: string;
 
   @Column()
+  @IsDate()
+  @Type(() => Date)
   fechaFundacion: Date;
 
   @Column()
