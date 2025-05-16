@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   UseInterceptors,
@@ -26,7 +27,7 @@ export class AeropuertoController {
   }
 
   @Get(':idAeropuerto')
-  async findOne(@Param('idAeropuerto') idAeropuerto: number) {
+  async findOne(@Param('idAeropuerto', ParseIntPipe) idAeropuerto: number) {
     return await this.aeropuertoService.findOne(idAeropuerto);
   }
 
@@ -37,14 +38,17 @@ export class AeropuertoController {
   }
 
   @Put(':idAeropuerto')
-  async update(@Param('idAeropuerto') idAeropuerto: number, @Body() aeropuertoDto: AeropuertoDto) {
+  async update(
+    @Param('idAeropuerto', ParseIntPipe) idAeropuerto: number,
+    @Body() aeropuertoDto: AeropuertoDto,
+  ) {
     const aeropuerto: AeropuertoEntity = plainToInstance(AeropuertoEntity, aeropuertoDto);
     return await this.aeropuertoService.update(idAeropuerto, aeropuerto);
   }
 
   @Delete(':idAeropuerto')
   @HttpCode(204)
-  async delete(@Param('idAeropuerto') idAeropuerto: number) {
+  async delete(@Param('idAeropuerto', ParseIntPipe) idAeropuerto: number) {
     return await this.aeropuertoService.delete(idAeropuerto);
   }
 }
