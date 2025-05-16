@@ -5,10 +5,10 @@ import { Repository } from 'typeorm';
 import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
-import { AeropuertoAerolineaService } from './aeropuerto-aerolinea.service';
+import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 
-describe('AeropuertoAerolineaService', () => {
-  let service: AeropuertoAerolineaService;
+describe('AerolineaAeropuertoService', () => {
+  let service: AerolineaAeropuertoService;
   let aeropuertoRepository: Repository<AeropuertoEntity>;
   let aerolineaRepository: Repository<AerolineaEntity>;
   let aeropuerto: AeropuertoEntity;
@@ -18,10 +18,10 @@ describe('AeropuertoAerolineaService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmTestingConfig()],
-      providers: [AeropuertoAerolineaService],
+      providers: [AerolineaAeropuertoService],
     }).compile();
 
-    service = module.get<AeropuertoAerolineaService>(AeropuertoAerolineaService);
+    service = module.get<AerolineaAeropuertoService>(AerolineaAeropuertoService);
     aeropuertoRepository = module.get<Repository<AeropuertoEntity>>(
       getRepositoryToken(AeropuertoEntity),
     );

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 import { Repository } from 'typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
-import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
-import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 
 @Injectable()
-export class AeropuertoAerolineaService {
+export class AerolineaAeropuertoService {
   constructor(
     @InjectRepository(AerolineaEntity)
     private readonly aerolineaRepository: Repository<AerolineaEntity>,
