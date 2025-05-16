@@ -15,7 +15,7 @@ import { plainToInstance } from 'class-transformer';
 import { AerolineaDto } from './aerolinea.dto';
 import { AerolineaEntity } from './aerolinea.entity';
 
-@Controller('aerolineas')
+@Controller('airlines')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class AerolineaController {
   constructor(private readonly aerolineaService: AerolineaService) {}
